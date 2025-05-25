@@ -1,0 +1,385 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+:root {
+  --primary-color: #008080; /* Dark Teal */
+  --secondary-color: #f4f4f4; /* Light Gray */
+  --accent-color: #FF7F50; /* Coral */
+  --text-headings-color: #2F4F4F; /* Dark Slate Gray */
+  --text-body-color: #36454F; /* Charcoal */
+  --white-color: #FFFFFF;
+  --off-white-color: #FAFAFA;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-body-color);
+  background-color: var(--off-white-color);
+  line-height: 1.6;
+  padding-top: 56px; /* Added padding to prevent content from being hidden by fixed-top navbar */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-headings-color);
+  font-weight: 700; /* Default bold for headings */
+}
+
+.navbar.bg-primary {
+  background-color: var(--primary-color) !important; /* Important to override Bootstrap */
+}
+
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-brand {
+  color: var(--white-color); /* Ensure text is white/light on the primary color */
+  position: relative; /* For pseudo-elements like the underline */
+  transition: color 0.3s ease-in-out; /* Added transition for color */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  padding-bottom: 0.5rem; /* Increased padding for underline space */
+}
+
+.navbar-dark .navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0.25rem; /* Adjusted position of underline */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px; /* Thickness of the underline */
+  background-color: var(--accent-color);
+  transition: width 0.3s ease-in-out;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover::after,
+.navbar-dark .navbar-nav .nav-link.active::after { /* .active class will need JS */
+  width: 70%; /* Underline width - adjust as preferred */
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-brand:hover { /* Added hover for brand */
+  color: var(--accent-color); /* Use accent for hover */
+  transform: none; /* Remove global 'a:hover' transform for navbar items */
+}
+
+
+/* Global Link Styling */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease-in-out, text-decoration 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+  transform: translateY(-2px); /* Subtle lift effect */
+}
+
+/* Ensure Bootstrap's js-scroll-trigger links in navbar also get this styling if not overridden by .nav-link */
+.navbar-nav .nav-link.js-scroll-trigger,
+.navbar-brand.js-scroll-trigger {
+    /* Transitions will be inherited from 'a' or can be specified if different behavior is needed */
+}
+
+
+/* Adjusting padding for content sections to account for fixed navbar */
+/* This might need further refinement based on original resume.css and Bootstrap structure */
+/* .container-fluid > section { */ /* Commenting out to replace with .page-section */
+  /* padding-top: 2rem; */
+  /* padding-bottom: 2rem; */
+/* } */
+
+/* General Page Section Styling */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  animation: fadeIn 0.6s ease-out forwards; /* Apply animation */
+  opacity: 0; /* Start hidden, animation will make it visible */
+  /* Staggering animation delay for subsequent sections */
+  /* This is a simple way; more complex staggering might need JS or more specific CSS */
+}
+
+/* Apply animation delays to page sections for a staggered effect */
+/* This requires knowing the order or having specific IDs/classes if order isn't guaranteed */
+/* Generic approach: if sections are direct children of a common parent */
+.container-fluid.p-0 > .page-section:nth-child(1) { animation-delay: 0.1s; }
+.container-fluid.p-0 > .page-section:nth-child(2) { animation-delay: 0.3s; }
+.container-fluid.p-0 > .page-section:nth-child(3) { animation-delay: 0.5s; }
+/* Add more if needed, or use a different strategy if structure varies */
+
+
+/* If the hero section is considered a "page-section" or similar, it might need its own animation or delay */
+#hero + .container-fluid.p-0 > .page-section:first-of-type {
+    animation-delay: 0.2s; /* Delay for the first section after hero */
+}
+
+/* For pages without a hero, the first section could have a shorter delay or none if body padding handles navbar */
+/* body > .navbar + .container-fluid.p-0 > .page-section:first-of-type {
+    animation-delay: 0.1s; 
+}*/
+
+
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border-bottom: 1px solid var(--secondary-color); /* Subtle border */
+}
+
+/* For the last section on a page, remove the border-bottom */
+.page-section:last-of-type {
+  border-bottom: none;
+}
+
+/* Section Title Styling (h2) */
+.page-section h2 {
+  font-size: 2.8rem; /* Slightly smaller than original h2 for modern look */
+  text-transform: uppercase; /* Keep uppercase as per original theme */
+  margin-bottom: 3rem; /* Space below the title */
+  text-align: center; /* Center section titles */
+}
+
+/* Specific adjustment for first section if header is present above it (like in index.html) */
+/* Or ensuring enough space after the fixed-top navbar */
+/* body > header#header + .navbar + .container-fluid, */ /* index.html scenario - header removed */
+body > .navbar + #hero + .container-fluid .page-section:first-of-type, /* For index.html with hero */
+body > .navbar + .container-fluid .page-section:first-of-type { /* For other pages */
+  /* The body padding-top: 56px should handle the navbar overlap.
+     If additional space is needed for the very first section after navbar/hero. */
+  /* padding-top: calc(4rem + 56px); /* Example if body padding wasn't there */
+}
+
+
+/* Making sure the main content areas are not obscured by the fixed navbar */
+/* The padding on .page-section should handle this now.
+   Removing old individual ID padding. */
+/*
+#objective,
+#work-experience,
+#major-projects,
+#academic-qualification,
+#extracurricular-activities,
+#key-responsibilities-skills,
+#core-technical-competencies,
+#contact {
+    padding: 2rem; 
+    margin-top: 1rem; 
+}
+*/
+
+/* Styled List for extracurricular activities and similar lists */
+.styled-list {
+  list-style: none; /* Remove default bullets */
+  padding-left: 0; /* Remove default padding */
+}
+
+.styled-list li {
+  position: relative;
+  padding-left: 1.8rem; /* Space for custom bullet */
+  margin-bottom: 0.75rem; /* Space between items */
+  font-size: 1rem;
+}
+
+.styled-list li::before {
+  content: "\f00c"; /* FontAwesome check icon (fa-check) */
+  font-family: FontAwesome;
+  position: absolute;
+  left: 0;
+  top: 0.05rem; /* Adjust vertical alignment */
+  color: var(--accent-color);
+  font-size: 0.9rem;
+}
+
+/* Contact Form Styling Adjustments */
+#contact form .form-group {
+  margin-bottom: 1.5rem; /* Increase bottom margin for form groups */
+}
+
+#contact form button[type="submit"] {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--white-color);
+  padding: 0.75rem 1.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+#contact form button[type="submit"]:hover {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* Key Responsibilities list in skills.html */
+#key-responsibilities-skills ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+#key-responsibilities-skills ul li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+#key-responsibilities-skills ul li::before {
+  content: "\f0a9"; /* FontAwesome right arrow icon (fa-arrow-right or fa-chevron-right) */
+  font-family: FontAwesome;
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  color: var(--accent-color);
+  font-size: 0.9rem;
+}
+
+/* For index.html, the header is very minimal now. Let's give it some spacing. */
+/* header#header { */ /* This style is no longer needed as the header is removed */
+    padding-top: 1.5rem; /* Add some padding to the top */
+    padding-bottom: 0.5rem; /* Add some padding to the bottom */
+    text-align: center; /* Center the h1 */
+}
+
+header#header h1 {
+    margin-bottom: 0; /* Remove default margin from h1 if needed */
+}
+
+/* Ensure that the main content area starts below the fixed navbar.
+   The body padding-top: 56px; should handle this.
+   If using Bootstrap's `container-fluid` for the main content wrapper,
+   it might need additional top margin/padding if sections inside it don't have their own.
+*/
+.container-fluid.p-0 {
+    /* margin-top: 56px; /* This would be an alternative to body padding-top */
+}
+
+/* Styling for icons in skills list */
+#core-technical-competencies ul li i.fa { /* Target Font Awesome icons specifically */
+  margin-right: 10px; /* Space between icon and text */
+  color: var(--primary-color); /* Use primary color for icons */
+  width: 1.2em; /* Ensure icons have a consistent width for alignment */
+  text-align: center; /* Center icon within its allocated width */
+}
+
+/* Project Image Styling */
+.project-image {
+  max-width: 300px; /* Limit image width */
+  height: auto; /* Maintain aspect ratio */
+  border: 1px solid #ddd; /* Subtle border */
+  border-radius: 4px; /* Slightly rounded corners */
+  margin-bottom: 1rem; /* Space below image if layout stacks on mobile */
+}
+
+/* Styling for project items to ensure consistent layout */
+/* This is also used by experience items */
+.resume-item {
+  background-color: var(--white-color);
+  padding: 1.5rem;
+  margin-bottom: 2rem; /* Increased margin */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.08); /* Softer shadow */
+  display: flex; /* Using flex for layout */
+  flex-direction: column; /* Default stack for mobile */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added transition for hover */
+}
+
+.resume-item:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 8px 15px rgba(0,0,0,0.15); /* Enhanced shadow on hover */
+}
+
+@media (min-width: 768px) {
+  .resume-item {
+    flex-direction: row; /* Side-by-side on larger screens */
+  }
+}
+
+.resume-item .resume-content { /* For image in projects or date in experience */
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .resume-item .resume-content {
+    flex: 0 0 200px; /* Fixed width for the content part (e.g. image or date) */
+    margin-right: 1.5rem;
+    margin-bottom: 0;
+  }
+  /* Specific for project images within resume-item */
+  #major-projects .resume-item .resume-content {
+    flex: 0 0 300px; /* Fixed width for the image container */
+  }
+}
+
+
+.resume-item .resume-text {
+  flex-grow: 1; /* Allow text to take remaining space */
+}
+
+.resume-item h3 {
+  color: var(--text-headings-color);
+  margin-bottom: 0.35rem;
+  font-size: 1.75rem;
+}
+
+.resume-item .subheading {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-family: 'Open Sans', sans-serif; /* Subheadings might look better with body font */
+  font-size: 1.1rem;
+  text-transform: none; /* Removing uppercase from original .subheading */
+}
+
+.resume-item .resume-date { /* For experience page */
+  color: var(--accent-color);
+  font-weight: 500;
+  font-size: 0.9rem;
+  display: block; /* Make it block to appear on its own line or control spacing */
+  margin-bottom: 0.5rem;
+}
+
+.resume-item p {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.resume-item ul li { /* For lists within experience items */
+  font-size: 0.95rem;
+}
+
+
+/* Footer styling */
+footer {
+  background-color: var(--text-headings-color);
+  color: var(--off-white-color);
+  padding: 2.5rem 0; /* Increased padding */
+  text-align: center;
+  margin-top: 3rem; /* Ensure space above footer */
+}
+
+/* Education Table Styling */
+#academic-qualification table {
+  margin-top: 2rem; /* Space above the table */
+}
+
+#academic-qualification table th {
+  background-color: var(--primary-color) !important; /* Override Bootstrap's thead-dark if needed or ensure it matches */
+  color: var(--white-color);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+#academic-qualification table td {
+  color: var(--text-body-color);
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Hover effect from Bootstrap's .table-hover is generally good.
+   If more specific hover is needed:
+#academic-qualification table tbody tr:hover {
+  background-color: var(--secondary-color);
+}
+*/
