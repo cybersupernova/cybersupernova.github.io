@@ -284,6 +284,7 @@ header#header h1 {
   display: flex; /* Using flex for layout */
   flex-direction: column; /* Default stack for mobile */
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added transition for hover */
+  height: 100%; /* For equal height cards in a Bootstrap row */
 }
 
 .resume-item:hover {
@@ -297,26 +298,50 @@ header#header h1 {
   }
 }
 
-.resume-item .resume-content { /* For image in projects or date in experience */
-  margin-bottom: 1rem;
+  .resume-item .resume-content { /* For main content block (text in experience, image in projects) */
+    margin-bottom: 1rem; /* Default for stacked mobile view */
 }
 
 @media (min-width: 768px) {
-  .resume-item .resume-content {
-    flex: 0 0 200px; /* Fixed width for the content part (e.g. image or date) */
+  .resume-item { /* This already makes .resume-item a flex row on desktop */
+     align-items: flex-start; /* Align items to the top for varying content heights */
+  }
+
+  /* For experience items: main text content */
+  #work-experience .resume-item .resume-content {
+    flex-grow: 1; /* Allow text block to take available space */
+    margin-right: 1.5rem; /* Space between text and date */
+    margin-bottom: 0; /* No bottom margin when side-by-side */
+  }
+
+  /* For experience items: date part */
+  #work-experience .resume-item .resume-date {
+    flex-shrink: 0; /* Prevent date from shrinking */
+    width: auto; /* Or a fixed width like 120px if preferred */
+    min-width: 100px; /* Ensure some space */
+    /* text-align: right; is handled by .text-md-right in HTML */
+  }
+
+  /* For project items: image container */
+  #major-projects .resume-item .resume-content { /* This is the image container */
+    /* flex: 0 0 300px; /* REMOVED - Replaced by image's own max-width and flex properties */
+    flex-shrink: 0; /* Prevent this container from shrinking if e.g. text content is very short */
     margin-right: 1.5rem;
     margin-bottom: 0;
+    /* Width will be dictated by the img.project-image inside it (max-width: 300px) */
+    /* but container can shrink if column is narrower than 300px + padding */
   }
-  /* Specific for project images within resume-item */
-  #major-projects .resume-item .resume-content {
-    flex: 0 0 300px; /* Fixed width for the image container */
+   /* For project items: text part */
+  #major-projects .resume-item .resume-text { /* This is the text container */
+    flex-grow: 1; /* Allow text to take remaining space */
   }
 }
 
 
-.resume-item .resume-text {
-  flex-grow: 1; /* Allow text to take remaining space */
-}
+/* .resume-item .resume-text was a general class, refined above for projects */
+/* .resume-item .resume-text {
+  flex-grow: 1; 
+} */
 
 .resume-item h3 {
   color: var(--text-headings-color);
